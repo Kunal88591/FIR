@@ -1,0 +1,42 @@
+/* Theme variables */
+:root{
+	--primary: #0d6efd;
+	--primary-dark: #0b5ed7;
+	--muted: #6c757d;
+	--bg: #f8fafb;
+}
+* { box-sizing: border-box; }
+body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: var(--bg); color: #222; margin: 0; }
+.navbar-brand { font-weight: 700; }
+.container { max-width: 1100px; margin: 2rem auto; }
+main .card { border-radius: 8px; box-shadow: 0 6px 16px rgba(16,24,40,0.06); }
+.hero { background: linear-gradient(90deg, rgba(13,110,253,0.08), rgba(109,40,217,0.02)); padding: 2rem; border-radius: 8px; margin-bottom: 1.25rem; }
+h1 { margin-top: 0; }
+.card-section { padding: 1.25rem; }
+.form-group { margin-bottom: 1rem; }
+label { display: block; margin-bottom: 0.35rem; font-weight: 600; }
+input[type='text'], input[type='date'], input[type='password'], textarea, select { width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid #e6e8eb; }
+button { padding: 0.5rem 0.9rem; border-radius: 6px; border: none; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-outline { background: transparent; border: 1px solid #ddd; color: #333; }
+.nav a { display: inline-block; margin-right: 1rem; color: var(--primary); text-decoration: none; }
+.grid { display: grid; grid-template-columns: 1fr 360px; gap: 1rem; }
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 0.8rem; border-bottom: 1px solid #fafafa; }
+th { background: #fafafa; text-align: left; }
+.description { white-space: pre-wrap; background: #ffffff; padding: 1rem; border-radius: 6px; border: 1px solid #f1f3f5; }
+.error { color: #842029; background: #f8d7da; padding: 0.6rem 0.75rem; border-radius: 6px; }
+.muted { color: var(--muted); }
+.pill { padding: 0.25rem 0.5rem; background: #eef2ff; border-radius: 999px; color: #3b82f6; font-weight: 600; }
+.pill[data-status="Submitted"] { background: #e6f4ea; color: #198754; }
+.pill[data-status="Under Investigation"] { background: #fff4e6; color: #d97706; }
+.pill[data-status="Closed"] { background: #f1f3f5; color: #6c757d; }
+.card-compact { padding: 0.8rem; background: #fff; border-radius: 8px; }
+.table-actions a, .table-actions form { display: inline-block; margin-right: 0.25rem; }
+@media (max-width: 767px) {
+	.grid { grid-template-columns: 1fr; }
+}
+
+/* Provide some Bootstrap-friendly spacing with more readable buttons */
+.btn-primary:hover { background: var(--primary-dark); }
+.footer { padding: 1rem 0; text-align: center; color: var(--muted); }
