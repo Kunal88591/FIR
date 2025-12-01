@@ -10,10 +10,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 alert('Please fill in required fields: Complainant name and description.');
                 return false;
             }
-            if (!confirm('Submit FIR? Please ensure details are correct.')) {
-                e.preventDefault();
-                return false;
-            }
+            // Confirm dialog removed for smoother experience
+            // if (!confirm('Submit FIR? Please ensure details are correct.')) {
+            //    e.preventDefault();
+            //    return false;
+            // }
         });
     }
 

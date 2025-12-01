@@ -22,7 +22,7 @@ if ($station !== '') {
     $params[':station'] = $station;
 }
 if (!empty($where)) {
-    $sql .= ' WHERE ' . implode(' AND ', $where);
+    $sql .= ' WHERE ' . implode(' AND', $where);
 }
 $sql .= ' ORDER BY f.created_at DESC';
 $stmt = $pdo->prepare($sql);
@@ -32,9 +32,14 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="card">
-    <div class="card-section d-flex justify-content-between align-items-center">
-        <h1 class="mb-0">All FIRs</h1>
-        <a href="/report.php" class="btn btn-primary">Report New FIR</a>
+    <div class="card-section" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-0">📋 All FIRs</h1>
+                <p class="muted" style="margin-top: 0.5rem; margin-bottom: 0;">Browse and filter filed reports</p>
+            </div>
+            <a href="/report.php" class="btn btn-primary">📝 Report New FIR</a>
+        </div>
     </div>
     <div class="card-section">
         <form method="GET" class="row g-2 align-items-center mb-3">
@@ -44,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
                 <option value="Submitted" <?php echo (($_GET['status'] ?? '') === 'Submitted') ? 'selected' : ''; ?>>Submitted</option>
                 <option value="Under Investigation" <?php echo (($_GET['status'] ?? '') === 'Under Investigation') ? 'selected' : ''; ?>>Under Investigation</option>
                 <option value="Closed" <?php echo (($_GET['status'] ?? '') === 'Closed') ? 'selected' : ''; ?>>Closed</option>
-            </select></div>
+</select></div>
             <div class="col-md-3">
               <select class="form-select" name="station">
                 <option value="">All Stations</option>

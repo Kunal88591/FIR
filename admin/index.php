@@ -15,7 +15,7 @@ $firs = $stmt->fetchAll();
 $officers = $pdo->query('SELECT id, name FROM officers ORDER BY name ASC')->fetchAll();
 ?>
 <?php require_once __DIR__ . '/../includes/header.php'; ?>
-?>
+
 
 <div class="card">
     <div class="card-section d-flex justify-content-between align-items-center">

@@ -1,20 +1,21 @@
 <?php
-// Database helper for SQLite using PDO
+// MySQL Database Configuration for FIR System
 function getPDO(): PDO
 {
-    $dbFile = __DIR__ . '/../data/database.sqlite';
-    if (!file_exists(dirname($dbFile))) {
-        mkdir(dirname($dbFile), 0755, true);
+    $host = 'localhost';
+    $dbname = 'fir_system';
+    $username = 'root';
+    $password = ''; // Default XAMPP password is empty
+    
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+    
+    try {
+        $pdo = new PDO($dsn, $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $pdo;
+    } catch (PDOException $e) {
+        die("Database connection failed: " . $e->getMessage() . "<br>Make sure MySQL is running in XAMPP!");
     }
-
-    $dsn = 'sqlite:' . $dbFile;
-    $pdo = new PDO($dsn);
-    // Throw exceptions on errors
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Use associative arrays by default
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    // Enable foreign keys in SQLite
-    $pdo->exec('PRAGMA foreign_keys = ON;');
-    return $pdo;
 }
 ?>

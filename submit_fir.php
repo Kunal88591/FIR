@@ -78,8 +78,8 @@ try {
                 $ci->execute([':n' => $name]);
                 $criminal_id = $pdo->lastInsertId();
             }
-            // Link
-            $link = $pdo->prepare('INSERT OR IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
+            // Link - FIXED FOR MYSQL
+            $link = $pdo->prepare('INSERT IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
             $link->execute([':f' => $fir_id, ':c' => $criminal_id]);
         }
     }
