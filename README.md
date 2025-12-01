@@ -1,61 +1,62 @@
-# FIR (First Information Report) - PHP / HTML / CSS / JS + SQLite
+# 🚓 FIR Management System
 
-This repository contains a minimal FIR (First Information Report) system implemented using PHP, HTML, CSS, JS and an SQLite database.
+A modern, professional First Information Report (FIR) management system designed for police stations to digitize their record-keeping.
 
-Features:
-- Submit FIRs via a web form (complainant details, title, description, accused(s), evidence)
-- View a list of FIRs with search & filters (by status, station, query)
-- View FIR details with connected data (complainant, assigned officers, evidence)
-- Admin area: change status, assign/unassign officers, add/delete evidence, manage stations/officers/criminals
-- Admin: edit FIR details (title, crime type, date/place, station, status)
+---
 
-This is intended as a starter project and demo. For production use, add proper authentication, CSRF protection, input sanitization, and HTTPS.
+## 📋 Prerequisites
 
-## Quick setup (local)
+1.  **WAMP Server** (for the MySQL Database).
+    *   Make sure the WAMP icon is **GREEN** in your taskbar.
 
-1. Ensure you have PHP installed (PHP 7.4+ recommended). You can check with `php -v`.
-2. Start a local PHP server in the project root:
+---
 
-```bash
-php -S localhost:8000
+## 🚀 How to Run the Project
+
+We have included a portable PHP version so you don't need to install anything extra!
+
+### Step 1: Start the Server
+Open your terminal (PowerShell or CMD) in this folder and run:
+
+```powershell
+bin\php\php.exe -S localhost:8000
 ```
 
-3. Initialize the database (creates SQLite DB and default admin):
+### Step 2: Open in Browser
+Go to: **[http://localhost:8000](http://localhost:8000)**
 
-```bash
-php db_init.php
-```
+---
 
-4. Open http://localhost:8000 in your browser.
+## 🗄️ Database Setup (First Time Only)
 
-Development helper:
-- Reset & reinitialize DB: `php db_reset.php` (deletes `data/database.sqlite` and runs `db_init.php`).
+1.  Start **WAMP Server**.
+2.  Open **[http://localhost/phpmyadmin](http://localhost/phpmyadmin)**.
+3.  Login (Default: Username `root`, Password empty).
+4.  Create a new database named `fir_system`.
+5.  Click **Import** -> Choose File -> Select `sql/init_mysql.sql` from this project folder.
+6.  Click **Go**.
 
-Advanced features you could add:
-- File uploads for evidence with server-side validation and storage
-- Stronger admin authentication & CSRF protection
-- Pagination and more sophisticated search (date range, crime_type)
-- Exporting FIRs (CSV/JSON)
+---
 
-Admin credentials (default):
-- Username: `admin`
-- Password: `admin123`
+## 🔑 Admin Credentials
 
-## Notes
-- You can switch to MySQL by adjusting `includes/db.php` and schema if you need multi-user or networked access.
-- This demo uses simple session-based admin authentication; adjust for stronger policies if using in production.
+To access the Admin Dashboard:
 
-## Project structure
+*   **URL:** [http://localhost:8000/admin/login.php](http://localhost:8000/admin/login.php)
+*   **Username:** `admin`
+*   **Password:** `admin123`
 
-- `index.php` — landing
-- `report.php` — submit FIR form
-- `submit_fir.php` — handler to insert FIRs
-- `list_firs.php` — list public FIRs
-- `view_fir.php` — view single FIR
-- `admin/` — admin login and dashboard
-- `includes/` — DB and auth helpers
-- `sql/init.sql` — schema
-- `db_init.php` — creates DB and seeds admin
-- `assets/` — CSS and JS
+---
 
-Happy hacking! Please ask if you'd like enhancements: search, filtering, user accounts, email notifications, file uploads, or stricter access control.
+## 📂 Project Structure
+
+*   `admin/` - Admin dashboard and management logic.
+*   `assets/` - CSS, JavaScript, and images.
+*   `bin/` - Portable PHP 8.2 environment.
+*   `includes/` - Database connection and helper functions.
+*   `sql/` - Database initialization script.
+*   `*.php` - Frontend pages for users to view and submit FIRs.
+
+---
+
+*College Project Demonstration*
