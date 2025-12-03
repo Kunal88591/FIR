@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/pagination.php';
 $title = 'All FIRs';
 $pdo = getPDO();
 $q = trim($_GET['q'] ?? '');
@@ -22,9 +23,22 @@ if ($station !== '') {
     $params[':station'] = $station;
 }
 if (!empty($where)) {
-    $sql .= ' WHERE ' . implode(' AND', $where);
+    $sql .= ' WHERE ' . implode(' AND ', $where);
 }
-$sql .= ' ORDER BY f.created_at DESC';
+
+// Count total items for pagination
+$countSql = "SELECT COUNT(*) FROM firs f LEFT JOIN complainants c ON f.complainant_id = c.id LEFT JOIN police_stations ps ON f.station_id = ps.id";
+if (!empty($where)) {
+    $countSql .= ' WHERE ' . implode(' AND ', $where);
+}
+$stmtCount = $pdo->prepare($countSql);
+$stmtCount->execute($params);
+$totalItems = $stmtCount->fetchColumn();
+
+// Calculate pagination
+$pagination = Pagination::calculate($totalItems, $_GET['page'] ?? 1, 20);
+
+$sql .= ' ORDER BY f.created_at DESC LIMIT ' . $pagination['items_per_page'] . ' OFFSET ' . $pagination['offset'];
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $firs = $stmt->fetchAll();
@@ -63,6 +77,9 @@ require_once __DIR__ . '/includes/header.php';
         <?php if (count($firs) == 0): ?>
             <div class="alert alert-secondary">No FIRs reported yet.</div>
         <?php else: ?>
+            <div class="mb-3 text-muted">
+                Showing <?php echo $pagination['offset'] + 1; ?>-<?php echo min($pagination['offset'] + $pagination['items_per_page'], $totalItems); ?> of <?php echo $totalItems; ?> FIRs
+            </div>
             <div class="list-group">
             <?php foreach ($firs as $f): ?>
               <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/view_fir.php?id=<?php echo $f['id']; ?>">
@@ -75,6 +92,9 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
               </a>
             <?php endforeach; ?>
+            </div>
+            <div class="mt-3">
+                <?php echo Pagination::render($pagination, '/list_firs.php', ['q' => $q, 'status' => $status, 'station' => $station]); ?>
             </div>
         <?php endif; ?>
         </div>

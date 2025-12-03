@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/security.php';
 $title = 'Report an FIR';
 $pdo = getPDO();
 $stationsStmt = $pdo->query('SELECT id, station_name FROM police_stations ORDER BY station_name ASC');
@@ -22,6 +23,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="error"><?php echo htmlspecialchars($_GET['error']); ?></div>
         <?php endif; ?>
         <form id="firForm" action="/submit_fir.php" method="POST">
+            <?php echo Security::csrfField(); ?>
             <div class="row">
                 <div class="col-md-7">
                     <h5>Complainant Details</h5>

@@ -1,0 +1,57 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database files
+database/
+*.db
+*.sqlite
+*.sqlite3
+config/database.php
+
+# Logs
+logs/
+*.log
+
+# Uploaded files
+uploads/
+evidence_files/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# PHP
+vendor/
+composer.phar
+composer.lock
+
+# Session files
+sessions/
+
+# Cache
+cache/
+*.cache
+
+# Backup files
+backup/
+*.sql.gz
+*.sql.zip
+
+# Windows batch files output
+*.bat.log

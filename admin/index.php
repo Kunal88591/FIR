@@ -68,6 +68,7 @@ $officers = $pdo->query('SELECT id, name FROM officers ORDER BY name ASC')->fetc
                             <a class="btn btn-sm btn-outline" href="/view_fir.php?id=<?php echo $f['id']; ?>">View</a>
                             <a class="btn btn-sm btn-outline" href="/admin/edit_fir.php?id=<?php echo $f['id']; ?>">Edit</a>
                             <form style="display:inline" method="POST" action="/admin/actions.php">
+                                <?php echo Security::csrfField(); ?>
                                 <input type="hidden" name="id" value="<?php echo $f['id']; ?>">
                                 <input class="form-select form-select-sm" style="display:inline; width: auto;" name="status">
                                     <option value="Submitted" <?php echo ($f['status'] === 'Submitted') ? 'selected' : ''; ?>>Submitted</option>
@@ -78,6 +79,7 @@ $officers = $pdo->query('SELECT id, name FROM officers ORDER BY name ASC')->fetc
                                 <button class="btn btn-sm btn-outline" type="submit" name="action" value="delete" onclick="return confirm('Delete this FIR?');">Delete</button>
                             </form>
                             <form style="display:inline" method="POST" action="/admin/actions.php">
+                                <?php echo Security::csrfField(); ?>
                                 <input type="hidden" name="resource" value="fir">
                                 <input type="hidden" name="id" value="<?php echo $f['id']; ?>">
                                 <select name="officer_id">
