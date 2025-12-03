@@ -26,11 +26,23 @@ if (!$fir) {
 require_once __DIR__ . '/includes/header.php';
 ?>
 
+<!-- Print Header (hidden on screen) -->
+<div class="print-only print-header">
+    <h1>FIRST INFORMATION REPORT (FIR)</h1>
+    <p><strong>FIR No:</strong> <?php echo htmlspecialchars($fir['id']); ?></p>
+    <p><strong>Generated:</strong> <?php echo date('d-M-Y H:i:s'); ?></p>
+</div>
+
 <div class="card">
     <div class="card-section d-flex justify-content-between align-items-center">
         <div>
             <h1 class="mb-0">FIR #<?php echo htmlspecialchars($fir['id']); ?></h1>
             <small class="muted"><?php echo htmlspecialchars($fir['title'] ?? ''); ?></small>
+        </div>
+        <div class="no-print" style="display: flex; gap: 0.5rem;">
+            <a href="/export_pdf.php?id=<?php echo $id; ?>" class="btn btn-outline btn-sm" title="Download as PDF">📄 PDF</a>
+            <button onclick="window.print()" class="btn btn-outline btn-sm" title="Print this FIR">🖨️ Print</button>
+            <a href="/list_firs.php" class="btn btn-outline btn-sm">← Back</a>
         </div>
         <?php if (!empty($_GET['notice']) && $_GET['notice'] === 'created'): ?>
             <div class="alert alert-success" style="margin-bottom: 0; padding: 0.5rem 1rem;">✅ FIR Submitted Successfully</div>

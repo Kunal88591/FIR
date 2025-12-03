@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .chart-box { background: white; padding: 20px; margin: 20px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        h3 { color: #666; margin-bottom: 20px; }
+        #status { padding: 15px; background: #e3f2fd; border-radius: 5px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Chart.js Test Page</h1>
+        <div id="status">Loading Chart.js...</div>
+        
+        <div class="chart-box">
+            <h3>Doughnut Chart Test</h3>
+            <canvas id="testChart1" style="max-height: 300px;"></canvas>
+        </div>
+        
+        <div class="chart-box">
+            <h3>Bar Chart Test</h3>
+            <canvas id="testChart2" style="max-height: 300px;"></canvas>
+        </div>
+        
+        <div class="chart-box">
+            <h3>Line Chart Test</h3>
+            <canvas id="testChart3" style="max-height: 300px;"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            const statusDiv = document.getElementById('status');
+            
+            if (typeof Chart === 'undefined') {
+                statusDiv.innerHTML = '❌ Chart.js failed to load!';
+                statusDiv.style.background = '#ffebee';
+                return;
+            }
+            
+            statusDiv.innerHTML = '✅ Chart.js loaded successfully! Creating charts...';
+            statusDiv.style.background = '#e8f5e9';
+            
+            // Doughnut Chart
+            new Chart(document.getElementById('testChart1'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Submitted', 'Under Investigation', 'Closed'],
+                    datasets: [{
+                        data: [427, 652, 401],
+                        backgroundColor: ['#f97316', '#22c55e', '#8b5cf6'],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+            
+            // Bar Chart
+            new Chart(document.getElementById('testChart2'), {
+                type: 'bar',
+                data: {
+                    labels: ['Kidnapping', 'Burglary', 'Robbery', 'Drug Trafficking', 'Theft'],
+                    datasets: [{
+                        label: 'Number of FIRs',
+                        data: [108, 103, 91, 86, 85],
+                        backgroundColor: ['#3b82f6', '#8b5cf6', '#22c55e', '#f97316', '#ec4899']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+            
+            // Line Chart
+            new Chart(document.getElementById('testChart3'), {
+                type: 'line',
+                data: {
+                    labels: ['2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11'],
+                    datasets: [{
+                        label: 'FIRs Registered',
+                        data: [96, 120, 127, 115, 137, 118],
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+            
+            console.log('✅ All test charts created!');
+        });
+    </script>
+</body>
+</html>
