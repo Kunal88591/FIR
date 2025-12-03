@@ -8,10 +8,13 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="card">
-    <div class="card-section">
+    <div class="card-section" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);">
         <div class="d-flex justify-content-between align-items-center">
-            <h1 class="mb-0">Report an FIR</h1>
-            <a href="/list_firs.php" class="btn btn-outline">View FIRs</a>
+            <div>
+                <h1 class="mb-0">📝 Report an FIR</h1>
+                <p class="muted" style="margin-top: 0.5rem; margin-bottom: 0;">File a new First Information Report</p>
+            </div>
+            <a href="/list_firs.php" class="btn btn-outline">📋 View FIRs</a>
         </div>
     </div>
     <div class="card-section">

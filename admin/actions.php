@@ -25,7 +25,7 @@ if ($resource === 'fir') {
     if ($action === 'assign_officer' && $id > 0) {
         $officer_id = intval($_POST['officer_id'] ?? 0);
         if ($officer_id > 0) {
-            $stmt = $pdo->prepare('INSERT OR IGNORE INTO fir_officers (fir_id, officer_id) VALUES (:f, :o)');
+            $stmt = $pdo->prepare('INSERT IGNORE INTO fir_officers (fir_id, officer_id) VALUES (:f, :o)');
             $stmt->execute([':f' => $id, ':o' => $officer_id]);
         }
         header('Location: /admin/index.php');
@@ -137,7 +137,7 @@ if ($resource === 'criminal' && $action === 'create') {
             $criminal_id = $pdo->lastInsertId();
         }
         if ($fir_id > 0) {
-            $link = $pdo->prepare('INSERT OR IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
+            $link = $pdo->prepare('INSERT IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
             $link->execute([':f' => $fir_id, ':c' => $criminal_id]);
         }
     }
