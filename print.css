@@ -1,0 +1,113 @@
+/* Print-specific styles for FIR System */
+@media print {
+    /* Hide navigation and unnecessary elements */
+    .navbar,
+    .btn,
+    button,
+    .no-print,
+    footer,
+    .hero,
+    form {
+        display: none !important;
+    }
+
+    /* Reset page styles */
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    /* Card styles for print */
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+
+    .card-section {
+        padding: 15px;
+    }
+
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        color: black !important;
+        page-break-after: avoid;
+    }
+
+    /* Tables */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Status pills */
+    .pill {
+        border: 1px solid #000 !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Links */
+    a {
+        color: black !important;
+        text-decoration: underline;
+    }
+
+    /* Page breaks */
+    .page-break {
+        page-break-after: always;
+    }
+
+    /* Print header */
+    .print-header {
+        display: block !important;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .print-header h1 {
+        font-size: 24pt;
+        margin: 0;
+    }
+
+    .print-header p {
+        margin: 5px 0;
+    }
+
+    /* Ensure colors print */
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* Print-only elements */
+.print-only {
+    display: none;
+}
+
+@media print {
+    .print-only {
+        display: block !important;
+    }
+}

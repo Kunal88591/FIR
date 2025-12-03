@@ -1,20 +1,8 @@
 <?php
-require_once __DIR__ . '/../includes/auth.php';
-requireAdmin();
-require_once __DIR__ . '/../includes/db.php';
-$title = 'Admin Dashboard';
-
-$pdo = getPDO();
-$counts = [];
-$counts['firs'] = $pdo->query('SELECT COUNT(*) FROM firs')->fetchColumn();
-$counts['stations'] = $pdo->query('SELECT COUNT(*) FROM police_stations')->fetchColumn();
-$counts['officers'] = $pdo->query('SELECT COUNT(*) FROM officers')->fetchColumn();
-$counts['criminals'] = $pdo->query('SELECT COUNT(*) FROM criminals')->fetchColumn();
-$stmt = $pdo->query('SELECT f.*, c.name as complainant_name, ps.station_name as station_name FROM firs f LEFT JOIN complainants c ON f.complainant_id = c.id LEFT JOIN police_stations ps ON f.station_id = ps.id ORDER BY f.created_at DESC');
-$firs = $stmt->fetchAll();
-$officers = $pdo->query('SELECT id, name FROM officers ORDER BY name ASC')->fetchAll();
+// Redirect to new enhanced dashboard
+header('Location: /admin/dashboard.php');
+exit;
 ?>
-<?php require_once __DIR__ . '/../includes/header.php'; ?>
 
 
 <div class="card">

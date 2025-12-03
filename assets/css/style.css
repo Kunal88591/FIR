@@ -717,3 +717,208 @@ small {
     background-size: 1000px 100%;
     animation: shimmer 2s linear infinite;
 }
+
+/* ============================================
+   Dark Mode Styles (Feature 5)
+   ============================================ */
+body.dark-mode {
+    background: #1a1a2e !important;
+    color: #eee !important;
+}
+
+body.dark-mode .card {
+    background: #16213e !important;
+    border-color: #0f3460 !important;
+}
+
+body.dark-mode .navbar {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%) !important;
+}
+
+body.dark-mode .hero {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%) !important;
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3,
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+    color: #eee !important;
+}
+
+body.dark-mode .form-control, body.dark-mode .form-select,
+body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
+    background: #0f3460 !important;
+    border-color: #533483 !important;
+    color: #eee !important;
+}
+
+body.dark-mode .btn-outline {
+    background: #16213e !important;
+    color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+
+body.dark-mode .btn-outline:hover {
+    background: #3b82f6 !important;
+    color: white !important;
+}
+
+body.dark-mode .muted, body.dark-mode .text-muted,
+body.dark-mode small {
+    color: #aaa !important;
+}
+
+body.dark-mode .list-group-item {
+    background: #16213e !important;
+    border-color: #0f3460 !important;
+    color: #eee !important;
+}
+
+body.dark-mode .list-group-item .fw-bold {
+    color: #fff !important;
+}
+
+body.dark-mode .list-group-item .muted,
+body.dark-mode .list-group-item .small {
+    color: #bbb !important;
+}
+
+body.dark-mode .list-group-item:hover {
+    background: #0f3460 !important;
+}
+
+body.dark-mode .alert {
+    background: #0f3460 !important;
+    color: #eee !important;
+    border-color: #533483 !important;
+}
+
+body.dark-mode .card-compact {
+    background: #0f3460 !important;
+    border-color: #533483 !important;
+}
+
+/* ============================================
+   Back to Top Button (Feature 5)
+   ============================================ */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* ============================================
+   Loading Spinner (Feature 5)
+   ============================================ */
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Drag and Drop File Upload (Feature 3)
+   ============================================ */
+.drag-over {
+    border: 2px dashed var(--color-primary) !important;
+    background: var(--gradient-card) !important;
+}
+
+input[type="file"] {
+    cursor: pointer;
+}
+
+/* ============================================
+   Toast Notifications Override
+   ============================================ */
+.notyf {
+    z-index: 10000;
+}
+
+.notyf__toast {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+}
+
+/* ============================================
+   Chart Containers (Feature 4)
+   ============================================ */
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin: var(--space-6) 0;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+/* ============================================
+   Responsive Enhancements
+   ============================================ */
+@media (max-width: 767px) {
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+}
+
+/* ============================================
+   Accessibility Improvements
+   ============================================ */
+*:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+button:focus, a:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   Print Styles Override
+   ============================================ */
+@media print {
+    .back-to-top,
+    .dark-mode-toggle {
+        display: none !important;
+    }
+}
