@@ -770,6 +770,20 @@ body.dark-mode small {
 body.dark-mode .list-group-item {
     background: #16213e !important;
     border-color: #0f3460 !important;
+    color: #eee !important;
+}
+
+body.dark-mode .list-group-item .fw-bold {
+    color: #fff !important;
+}
+
+body.dark-mode .list-group-item .muted,
+body.dark-mode .list-group-item .small {
+    color: #bbb !important;
+}
+
+body.dark-mode .list-group-item:hover {
+    background: #0f3460 !important;
 }
 
 body.dark-mode .alert {

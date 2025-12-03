@@ -4,7 +4,7 @@
     </main>
     <footer class="bg-light border-top py-3 mt-4">
       <div class="container text-center text-muted small">
-        &copy; <?php echo date('Y'); ?> FIR System — Built with ❤️
+        Made with love by <a href="https://www.linkedin.com/in/kunal8859" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #0077b5; font-weight: 600;">Kunal</a>
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
