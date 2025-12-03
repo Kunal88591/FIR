@@ -2,16 +2,21 @@
 require_once __DIR__ . '/../includes/auth.php';
 requireAdmin();
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/security.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /admin/index.php');
     exit;
 }
 
-$action = $_POST['action'] ?? '';
-$id = intval($_POST['id'] ?? 0);
-$resource = $_POST['resource'] ?? 'fir';
-$pdo = getPDO();
+try {
+    // Validate CSRF token
+    Security::validateCsrfToken();
+    
+    $action = $_POST['action'] ?? '';
+    $id = intval($_POST['id'] ?? 0);
+    $resource = $_POST['resource'] ?? 'fir';
+    $pdo = getPDO();
 
 // Manage resource-specific actions
 if ($resource === 'fir') {
@@ -19,13 +24,14 @@ if ($resource === 'fir') {
         $status = $_POST['status'] ?? 'Submitted';
         $stmt = $pdo->prepare('UPDATE firs SET status = :s WHERE id = :id');
         $stmt->execute([':s' => $status, ':id' => $id]);
+        Logger::info('FIR status updated', ['fir_id' => $id, 'status' => $status, 'admin' => $_SESSION['admin_username']]);
         header('Location: /admin/index.php');
         exit;
     }
     if ($action === 'assign_officer' && $id > 0) {
         $officer_id = intval($_POST['officer_id'] ?? 0);
         if ($officer_id > 0) {
-            $stmt = $pdo->prepare('INSERT IGNORE INTO fir_officers (fir_id, officer_id) VALUES (:f, :o)');
+            $stmt = $pdo->prepare('INSERT OR IGNORE INTO fir_officers (fir_id, officer_id) VALUES (:f, :o)');
             $stmt->execute([':f' => $id, ':o' => $officer_id]);
         }
         header('Location: /admin/index.php');
@@ -137,7 +143,7 @@ if ($resource === 'criminal' && $action === 'create') {
             $criminal_id = $pdo->lastInsertId();
         }
         if ($fir_id > 0) {
-            $link = $pdo->prepare('INSERT IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
+            $link = $pdo->prepare('INSERT OR IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
             $link->execute([':f' => $fir_id, ':c' => $criminal_id]);
         }
     }
@@ -148,4 +154,10 @@ if ($resource === 'criminal' && $action === 'create') {
 // Default redirect
 header('Location: /admin/index.php');
 exit;
+
+} catch (Exception $e) {
+    Logger::error('Admin action failed', ['action' => $action ?? 'unknown', 'error' => $e->getMessage()]);
+    header('Location: /admin/index.php?error=' . urlencode($e->getMessage()));
+    exit;
+}
 ?>

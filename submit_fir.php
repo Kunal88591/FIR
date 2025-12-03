@@ -1,41 +1,65 @@
 <?php
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/security.php';
+require_once __DIR__ . '/includes/logger.php';
+
+// Start session for CSRF validation
+Security::configureSession();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /report.php');
     exit;
 }
 
-// Server-side validation and normalized inputs
-$complainant_name = trim($_POST['complainant_name'] ?? '');
-$contact = trim($_POST['complainant_contact'] ?? '');
-$email = trim($_POST['complainant_email'] ?? '');
-$address = trim($_POST['complainant_address'] ?? '');
-$title = trim($_POST['title'] ?? '');
-$description = trim($_POST['description'] ?? '');
-$incident_date = $_POST['incident_date'] ?? null;
-$incident_place = trim($_POST['incident_place'] ?? '');
-$station_type = null; // placeholder
-$crime_type = trim($_POST['crime_type'] ?? '');
-$accused_names = trim($_POST['accused_names'] ?? '');
-$evidence_descriptions = trim($_POST['evidence_descriptions'] ?? '');
+$pdo = getPDO();
 
-$errors = [];
-if ($complainant_name === '') {
-    $errors[] = 'Complainant name is required.';
-}
-if ($title === '') {
-    $errors[] = 'Title is required.';
-}
-if ($description === '') {
-    $errors[] = 'Description is required.';
-}
+try {
+    // Debug: Log token information
+    Logger::debug('CSRF token check', [
+        'has_session_token' => isset($_SESSION['csrf_token']) ? 'yes' : 'no',
+        'has_post_token' => isset($_POST['csrf_token']) ? 'yes' : 'no',
+        'session_id' => session_id()
+    ]);
+    
+    // Validate CSRF token
+    Security::validateCsrfToken();
+    
+    // Server-side validation and normalized inputs
+    $complainant_name = Security::sanitizeString($_POST['complainant_name'] ?? '');
+    $contact = Security::sanitizeString($_POST['complainant_contact'] ?? '');
+    $email = Security::sanitizeString($_POST['complainant_email'] ?? '');
+    $address = Security::sanitizeString($_POST['complainant_address'] ?? '');
+    $title = Security::sanitizeString($_POST['title'] ?? '');
+    $description = Security::sanitizeString($_POST['description'] ?? '');
+    $incident_date = $_POST['incident_date'] ?? null;
+    $incident_place = Security::sanitizeString($_POST['incident_place'] ?? '');
+    $crime_type = Security::sanitizeString($_POST['crime_type'] ?? '');
+    $accused_names = Security::sanitizeString($_POST['accused_names'] ?? '');
+    $evidence_descriptions = Security::sanitizeString($_POST['evidence_descriptions'] ?? '');
 
-if (!empty($errors)) {
-    $q = urlencode(implode('; ', $errors));
-    header('Location: /report.php?error=' . $q);
-    exit;
-}
+    $errors = [];
+    if ($complainant_name === '') {
+        $errors[] = 'Complainant name is required.';
+    }
+    if ($title === '') {
+        $errors[] = 'Title is required.';
+    }
+    if ($description === '') {
+        $errors[] = 'Description is required.';
+    }
+    if ($email !== '' && !Security::validateEmail($email)) {
+        $errors[] = 'Invalid email address.';
+    }
+    if ($contact !== '' && !Security::validatePhone($contact)) {
+        $errors[] = 'Invalid phone number format.';
+    }
+
+    if (!empty($errors)) {
+        Logger::warning('FIR submission validation failed', ['errors' => $errors]);
+        $q = urlencode(implode('; ', $errors));
+        header('Location: /report.php?error=' . $q);
+        exit;
+    }
 
 $pdo = getPDO();
 try {
@@ -78,8 +102,8 @@ try {
                 $ci->execute([':n' => $name]);
                 $criminal_id = $pdo->lastInsertId();
             }
-            // Link - FIXED FOR MYSQL
-            $link = $pdo->prepare('INSERT IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
+            // Link - SQLite compatible syntax
+            $link = $pdo->prepare('INSERT OR IGNORE INTO fir_criminals (fir_id, criminal_id) VALUES (:f, :c)');
             $link->execute([':f' => $fir_id, ':c' => $criminal_id]);
         }
     }
@@ -96,11 +120,30 @@ try {
     }
 
     $pdo->commit();
+    
+    Logger::info('FIR submitted successfully', [
+        'fir_id' => $fir_id,
+        'complainant' => $complainant_name,
+        'title' => $title
+    ]);
+    
     header('Location: /view_fir.php?id=' . $fir_id . '&notice=created');
     exit;
 } catch (Exception $e) {
     $pdo->rollBack();
-    error_log('DB error: ' . $e->getMessage());
+    Logger::error('FIR submission failed', ['error' => $e->getMessage()]);
+    header('Location: /report.php?error=' . urlencode('Failed to submit FIR. Please try again.'));
+    exit;
+}
+} catch (Exception $e) {
+    if (isset($pdo) && $pdo) {
+        try {
+            $pdo->rollBack();
+        } catch (Exception $rollbackEx) {
+            // Ignore rollback errors
+        }
+    }
+    Logger::error('FIR submission error', ['error' => $e->getMessage()]);
     $q = urlencode('Internal error. Please try again later.');
     header('Location: /report.php?error=' . $q);
     exit;
