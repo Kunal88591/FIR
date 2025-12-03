@@ -384,23 +384,15 @@ Before deploying to production:
 7. Enable HTTPS
 8. Configure regular database backups
 
----
 
-## 📚 Additional Documentation
-
-- [IMPROVEMENTS.md](IMPROVEMENTS.md) - Detailed list of all improvements
-- [.env.example](.env.example) - Environment configuration template
 
 ---
 
 ## 🤝 Contributing
 
-This is a college project. Feel free to fork and enhance!
+This is an open project. Feel free to fork and enhance!
 
 ---
 
-## 📄 License
-
-Educational project for learning purposes.
 
 
