@@ -303,8 +303,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Kunal**
-- GitHub: [@kunal885911](https://github.com/kunal885911)
+**Kunal MEENA**
+- GitHub: [@Kunal88591](https://github.com/Kunal88591)
 
 ---
 
